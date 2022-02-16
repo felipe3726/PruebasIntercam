@@ -12,19 +12,22 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var PasswordTextField: UITextField!
     @IBOutlet weak var RoundButton: UIButton!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         UserTextField.delegate = self
+        UserTextField.addBottomBorder()
+        
         PasswordTextField.delegate = self
+        PasswordTextField.addBottomBorder()
+        
         RoundButton.isEnabled = false
         RoundButton.addTarget(self, action: #selector(clickButton), for: UIControl.Event.touchDown)
+        RoundButton.layer.cornerRadius = 10
+        RoundButton.clipsToBounds = true
     }
 
     func textField(_ UserField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        
-        var checkUser = false
-        var checkPass = false
         
         if UserField == UserTextField{
         let allowChar = CharacterSet.letters
@@ -76,4 +79,16 @@ class ViewController: UIViewController, UITextFieldDelegate {
         present(alertController, animated: true, completion: nil)
     }
     
+    
+    
+}
+
+extension UITextField {
+    func addBottomBorder(){
+        let bottomLine = CALayer()
+        bottomLine.frame = CGRect(x: 0, y: self.frame.size.height - 1, width: self.frame.size.width, height: 1)
+        bottomLine.backgroundColor = UIColor.white.cgColor
+        borderStyle = .none
+        layer.addSublayer(bottomLine)
+    }
 }
